@@ -1,9 +1,3 @@
-<%
-    if (session.getAttribute("auth") == null || !(Boolean) session.getAttribute("auth")) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html>
     <head>
