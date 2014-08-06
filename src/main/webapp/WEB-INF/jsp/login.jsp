@@ -1,10 +1,3 @@
-<%
-  if (request.getParameter("logout") != null) {
-    session.invalidate();
-    response.sendRedirect("login.jsp");
-    return;
-  }
-%>
 <!DOCTYPE html>
 <html>
     <head>

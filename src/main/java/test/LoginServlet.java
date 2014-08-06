@@ -15,18 +15,25 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String context = req.getContextPath();
         HttpSession session = req.getSession();
+
+        if (req.getParameter("logout") != null) {
+            session.invalidate();
+            resp.sendRedirect(context + "/login");
+            return;
+        }
+
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         if (login != null && password != null) {
             if (login.equals("admin") && password.equals("admin")) {
                 session.setAttribute("login", login);
                 session.setAttribute("authenticated", true);
-                resp.sendRedirect(context + "/index.jsp");
+                resp.sendRedirect(context + "/page");
                 return;
             }
         }
-        //getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
-        resp.sendRedirect(req.getContextPath() + "/login.jsp");
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+        //resp.sendRedirect(req.getContextPath() + "/WEB-INF/jsp/login.jsp");
     }
 
     @Override
