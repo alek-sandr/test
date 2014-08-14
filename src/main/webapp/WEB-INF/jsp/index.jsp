@@ -13,7 +13,7 @@
         <br/>
         <h3>User <%= session.getAttribute("login") %> page</h3>
         <c:forEach var="record" items="${records}">
-            <p>${record.text} posted at ${record.date}</p>
+            <p>${record.content} posted at ${record.date}</p>
         </c:forEach>
     </body>
 </html>

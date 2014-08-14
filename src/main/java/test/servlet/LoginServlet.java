@@ -1,4 +1,7 @@
-package test;
+package test.servlet;
+
+import test.dao.UserDAO;
+import test.entity.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,11 +28,12 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         if (login != null && password != null) {
-            if (login.equals("admin") && password.equals("admin")) {
-                session.setAttribute("login", login);
-                session.setAttribute("authenticated", true);
-                resp.sendRedirect(context + "/page");
-                return;
+            User user = UserDAO.getUserByLogin(login);
+            if (user != null && user.getPassword().equals(password)) {
+                 session.setAttribute("login", login);
+                 session.setAttribute("authenticated", true);
+                 resp.sendRedirect(context + "/page");
+                 return;
             }
         }
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
