@@ -29,7 +29,7 @@ public class PageServlet extends HttpServlet {
 //        }
         List<Record> records = RecordDAO.getUserRecords((String) session.getAttribute("login"));
         req.setAttribute("records", records);
-        req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/page.jsp").forward(req, resp);
     }
 
 

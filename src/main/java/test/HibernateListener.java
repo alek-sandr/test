@@ -10,6 +10,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 @WebListener
@@ -22,11 +24,13 @@ public class HibernateListener implements ServletContextListener {
         admin.setPassword("admin");
         UserDAO.addUser(admin);
         Random rnd = new Random();
+        List<Record> records = new LinkedList<Record>();
         for (int i = 0; i < 10; i++) {
             Record record = new Record(Integer.toString(rnd.nextInt()), new Date());
             record.setOwnerId(UserDAO.getUserId("admin"));
-            RecordDAO.addRecord(record);
+            records.add(record);
         }
+        RecordDAO.addRecords(records);
     }
 
     @Override

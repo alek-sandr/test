@@ -1,8 +1,10 @@
 package test.entity;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -13,12 +15,14 @@ public class Record {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+    @Column(name = "CONTENT")
     private String content;
-    @Column(name = "DATE")
+
+    @Column(name = "DATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @Column(name = "USER_ID")
+    @Column(name = "USER_ID", nullable = false)
     private Long ownerId;
 
     public Record() {
@@ -29,7 +33,6 @@ public class Record {
         content = textString;
         this.date = date;
     }
-
 
     public Long getId() {
         return id;

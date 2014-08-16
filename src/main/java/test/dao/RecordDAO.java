@@ -16,6 +16,16 @@ public class RecordDAO {
         session.close();
     }
 
+    public static void addRecords(List<Record> recordList) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        for (Record r : recordList) {
+            session.save(r);
+        }
+        session.getTransaction().commit();
+        session.close();
+    }
+
     public static List<Record> getUserRecords(String login) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
