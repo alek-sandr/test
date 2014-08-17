@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,10 +8,10 @@
         <title>User cabinet</title>
     </head>
     <body>
-        <a href='<%= request.getContextPath() %>/page'>Main Page</a>
-        <a href='<%= request.getContextPath() %>/cabinet'>My cabinet</a>
-        <a href='<%= request.getContextPath() %>/login?logout=true'>Logout</a>
+        <a href="${context}/page">Main Page</a>
+        <a href="${context}/cabinet">My cabinet</a>
+        <a href="${context}/login?logout=true">Logout</a>
         <br/>
-        <h3>User <%= session.getAttribute("login") %> cabinet</h3>
+        <h3>User ${sessionScope.login} cabinet</h3>
     </body>
 </html>

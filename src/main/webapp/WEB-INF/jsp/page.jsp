@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,11 +9,11 @@
         <title>Main page</title>
     </head>
     <body>
-        <a href='<%= request.getContextPath() %>/page'>Main Page</a>
-        <a href='<%= request.getContextPath() %>/cabinet'>My cabinet</a>
-        <a href='<%= request.getContextPath() %>/login?logout=true'>Logout</a>
+        <a href="${context}/page">Main Page</a>
+        <a href="${context}/cabinet">My cabinet</a>
+        <a href="${context}/login?logout=true">Logout</a>
         <br/>
-        <h3>User <%= session.getAttribute("login") %> page</h3>
+        <h3>User ${sessionScope.login} page</h3>
         <c:choose>
             <c:when test="${empty records}">
                 <p>You have not records yet.</p>
