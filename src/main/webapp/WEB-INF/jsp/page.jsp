@@ -10,6 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Main page</title>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/webapp.css">
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="./js/ie10-viewport-bug-workaround.js"></script>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -42,8 +43,8 @@
                 </div><!--/.nav-collapse -->
             </div>
         </div>
-        <div class="jumbotron">
-            <div class="container">
+         <div class="container">
+             <div class="page-header">
                 <h2>User ${sessionScope.login} page</h2>
             </div>
         </div>
@@ -65,7 +66,6 @@
                 </c:forEach>
             </c:otherwise>
         </c:choose>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="./js/bootstrap.min.js"></script>
+        <%@include file="includes/footer.jsp" %>
     </body>
 </html>
