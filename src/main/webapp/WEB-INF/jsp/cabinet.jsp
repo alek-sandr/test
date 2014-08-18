@@ -36,7 +36,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a href="${context}/cabinet">Cabinet</a></li>
-                        <li><a href="${context}/login?logout=true">Logout</a></li>
+                        <li><a href="${context}/logout">Logout</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

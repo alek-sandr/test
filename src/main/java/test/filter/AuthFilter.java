@@ -18,16 +18,13 @@ public class AuthFilter implements Filter {
 
         String reqURI = request.getRequestURI();
 
-        if (reqURI.endsWith(".css") || reqURI.endsWith(".js")) {
+        if (reqURI.endsWith(".css") || reqURI.endsWith(".js") || reqURI.endsWith("login")) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
-        if (reqURI.endsWith("login")) {
-            filterChain.doFilter(servletRequest, servletResponse);
-            return;
-        }
-        if (!reqURI.endsWith("login.jsp") && request.getSession().getAttribute("authenticated") == null) {
+//        if (!reqURI.endsWith("login.jsp") && request.getSession().getAttribute("authenticated") == null) {
+        if (request.getSession().getAttribute("authenticated") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             //request.getServletContext().getRequestDispatcher("/login").forward(request, response);
         } else {

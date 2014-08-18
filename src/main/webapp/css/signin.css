@@ -13,8 +13,12 @@ body {
 .form-signin .checkbox {
   margin-bottom: 10px;
 }
-.form-signin .checkbox {
+.form-signin {
   font-weight: normal;
+}
+.error {
+  color: red;
+  text-align: center;
 }
 .form-signin .form-control {
   position: relative;
