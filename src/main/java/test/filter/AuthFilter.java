@@ -9,21 +9,25 @@ import java.io.IOException;
 @WebFilter("/*")
 public class AuthFilter implements Filter {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
+    public void init(FilterConfig filterConfig) throws ServletException {}
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if (request.getRequestURI().endsWith("login")) {
+        String reqURI = request.getRequestURI();
+
+        if (reqURI.endsWith(".css") || reqURI.endsWith(".js")) {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        if (!request.getRequestURI().endsWith("login.jsp") &&
-                request.getSession().getAttribute("authenticated") == null) {
+
+        if (reqURI.endsWith("login")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+        if (!reqURI.endsWith("login.jsp") && request.getSession().getAttribute("authenticated") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             //request.getServletContext().getRequestDispatcher("/login").forward(request, response);
         } else {
@@ -32,7 +36,5 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() {}
 }
