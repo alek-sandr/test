@@ -26,7 +26,7 @@ public class HibernateListener implements ServletContextListener {
         Random rnd = new Random();
         List<Record> records = new LinkedList<Record>();
         for (int i = 0; i < 10; i++) {
-            Record record = new Record(Integer.toString(rnd.nextInt()), new Date());
+            Record record = new Record("Record", Integer.toString(rnd.nextInt()), new Date());
             record.setOwnerId(UserDAO.getUserId("admin"));
             records.add(record);
         }

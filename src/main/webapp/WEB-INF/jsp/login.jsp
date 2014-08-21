@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Login</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/signin.css">
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="./js/ie10-viewport-bug-workaround.js"></script>

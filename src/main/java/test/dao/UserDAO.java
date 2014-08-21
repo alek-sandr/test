@@ -15,7 +15,7 @@ public class UserDAO {
     public static User getUserByLogin(String login) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        List<User> users = session.createQuery("from User U where U.login = :login").setString("login", login).list();
+        List<User> users = session.createQuery("FROM User U WHERE U.login = :login").setString("login", login).list();
         session.getTransaction().commit();
         session.close();
         if (users.size() == 1) return users.get(0);

@@ -15,6 +15,9 @@ public class Record {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+    @Column(name = "TITLE")
+    private String title;
+
     @Column(name = "CONTENT")
     private String content;
 
@@ -26,11 +29,12 @@ public class Record {
     private Long ownerId;
 
     public Record() {
-        this("", new Date());
+        this("Record", "", new Date());
     }
 
-    public Record(String textString, Date date) {
-        content = textString;
+    public Record(String title, String content, Date date) {
+        this.title = title;
+        this.content = content;
         this.date = date;
     }
 
@@ -56,6 +60,14 @@ public class Record {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
