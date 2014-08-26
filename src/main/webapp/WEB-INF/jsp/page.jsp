@@ -8,7 +8,7 @@
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Main page</title>
+        <title>My records</title>
         <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/webapp.css">
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -34,7 +34,7 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="${context}/page">Main</a></li>
+                        <li class="active"><a href="${context}/page">My records</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="${context}/cabinet">Cabinet</a></li>
@@ -68,9 +68,14 @@
                 <input type="text" class="form-control" id="inputTitle" placeholder="Title" required>
               </div>
               <div class="form-group">
-                <label for="inputContent">Content</label>
-                <textarea rows="7" class="form-control" id="inputContent" placeholder="Content" required></textarea>
+                <label for="inputDescription">Description</label>
+                <textarea rows="5" class="form-control" id="inputDescription" placeholder="Description" required></textarea>
               </div>
+              <div class="form-group">
+                <label for="inputContent">Content</label>
+                <textarea rows="15" class="form-control" id="inputContent" placeholder="Content" required></textarea>
+              </div>
+              <input id="recordId" type="hidden" name="recordId" value="${record.id}">
               <div class="form-group">
                 <button type="submit" class="btn btn-primary">Save</button>
                 <button type="reset" class="btn btn-default">Clear</button>
@@ -88,8 +93,8 @@
             <c:otherwise>
                 <c:forEach var="record" items="${records}">
                     <div class="container">
-                            <h3>${record.title}</h3>
-                            <p>${record.content}</p>
+                            <h3><a href="${context}/record?id=${record.id}">${record.title}</a></h3>
+                            <p>${record.description}</p>
                             <p class="text-right">posted at <fmt:formatDate value="${record.date}" type="both" pattern="HH:mm | dd.MM.yyyy"/></p>
                     </div>
                 </c:forEach>

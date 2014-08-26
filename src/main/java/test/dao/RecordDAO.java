@@ -1,41 +1,36 @@
 package test.dao;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import test.entity.Record;
+import test.entity.User;
 import test.util.HibernateUtil;
 
 import java.util.List;
 
 public class RecordDAO {
 
-    public static boolean addRecord(Record record) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+    public static void addRecord(Record record) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.save(record);
-        session.getTransaction().commit();
-        session.close();
-        return t.wasCommitted();
     }
 
-    public static boolean addRecords(List<Record> recordList) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction t = session.beginTransaction();
+    public static void addRecords(List<Record> recordList) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         for (Record r : recordList) {
             session.save(r);
         }
-        session.getTransaction().commit();
-        session.close();
-        return t.wasCommitted();
     }
 
     public static List<Record> getUserRecords(String login) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        Long id = UserDAO.getUserId(login);
-        List<Record> records = session.createQuery("FROM Record R WHERE R.ownerId = :userId ORDER BY R.date DESC").setLong("userId", id).list();
-        session.getTransaction().commit();
-        session.close();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        User author  = UserDAO.getUserByLogin(login);
+        List<Record> records = session.createQuery("FROM Record WHERE author = :author ORDER BY date DESC").setEntity("author", author).list();
         return records;
+    }
+
+    public static Record getRecordById(long id) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        List<Record> records = session.createQuery("FROM Record WHERE id = :Id").setLong("Id", id).list();
+        return records.size() > 0 ? records.get(0) : null;
     }
 }

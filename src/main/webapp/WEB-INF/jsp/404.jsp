@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
@@ -7,7 +8,7 @@
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>My cabinet</title>
+        <title>Page not found</title>
         <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/webapp.css">
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -29,23 +30,27 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="${context}/page">TestWebApp</a>
+                    <a class="navbar-brand" href="${context}/">TestWebApp</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="${context}/page">My records</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="${context}/cabinet">Cabinet</a></li>
+                        <li><a href="${context}/cabinet">Cabinet</a></li>
                         <li><a href="${context}/logout">Logout</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
         </div>
-        <div class="container">
-            <div class="page-header">
-                <h2>User ${sessionScope.login} cabinet</h2>
+         <div class="container">
+             <div class="page-header">
+                <h2>Not found</h2>
             </div>
         </div>
+        <div class="container">
+            <p>Requested resource not found on this server.</p>
+        </div>
         <%@include file="includes/footer.jsp" %>
+    </body>
 </html>

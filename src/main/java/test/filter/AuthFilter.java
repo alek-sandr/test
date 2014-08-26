@@ -23,10 +23,8 @@ public class AuthFilter implements Filter {
             return;
         }
 
-//        if (!reqURI.endsWith("login.jsp") && request.getSession().getAttribute("authenticated") == null) {
         if (request.getSession().getAttribute("authenticated") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
-            //request.getServletContext().getRequestDispatcher("/login").forward(request, response);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

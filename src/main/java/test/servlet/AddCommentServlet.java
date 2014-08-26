@@ -3,9 +3,11 @@ package test.servlet;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import test.dao.CommentDAO;
 import test.dao.RecordDAO;
 import test.dao.UserDAO;
-import test.entity.Record;
+import test.entity.Comment;
+import test.entity.User;
 import test.util.HibernateUtil;
 
 import javax.servlet.ServletException;
@@ -18,8 +20,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
 
-@WebServlet("/addrecord")
-public class AddRecordServlet extends HttpServlet {
+@WebServlet("/addcomment")
+public class AddCommentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,27 +32,29 @@ public class AddRecordServlet extends HttpServlet {
             json = br.readLine();
         }
         Gson gson = new Gson();
+        //Long recordId = gson.fromJson(json, JsonObject.class).get("recordId").getAsLong();
         JsonObject jObj = new JsonObject();
-        Record newRecord = gson.fromJson(json, Record.class);
-        if ("".equals(newRecord.getTitle().trim()) || "".equals(newRecord.getContent().trim())) {
+        Comment newComment = gson.fromJson(json, Comment.class);
+        if ("".equals(newComment.getContent().trim())) {// empty comment
             jObj.addProperty("success", false);
             jObj.addProperty("message", "Empty data.");
             resp.getWriter().print(jObj.toString());
             return;
         }
-        newRecord.setDate(new Date());
+        newComment.setDate(new Date());
         try {
             HibernateUtil.beginTransaction();
-            newRecord.setAuthor(UserDAO.getUserByLogin(req.getSession().getAttribute("login").toString()));
-            RecordDAO.addRecord(newRecord);
+            newComment.setAuthor(UserDAO.getUserByLogin(req.getSession().getAttribute("login").toString()));
+            //newComment.setRecordId(recordId);
+            CommentDAO.addComment(newComment);
             HibernateUtil.commitTransaction();
             jObj.addProperty("success", true);
-            jObj.addProperty("id", newRecord.getId());
-            jObj.addProperty("title", newRecord.getTitle());
-            jObj.addProperty("description", newRecord.getDescription());
-            jObj.add("date", gson.toJsonTree(newRecord.getDate()));
-            //JsonElement record = gson.toJsonTree(newRecord);
-            //jObj.add("record", record);
+            jObj.addProperty("username", req.getSession().getAttribute("login").toString());
+            jObj.addProperty("content", newComment.getContent());
+            jObj.add("date", gson.toJsonTree(newComment.getDate()));
+
+            //JsonElement comment = gson.toJsonTree(newComment);
+            //jObj.add("comment", comment);
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
             //TODO: log exception

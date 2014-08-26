@@ -1,5 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<jsp:useBean id="date" class="java.util.Date" />
 <c:set var="context" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -7,7 +9,7 @@
         <meta charset="UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>My cabinet</title>
+        <title>Error</title>
         <link rel="stylesheet" href="./css/bootstrap.min.css">
         <link rel="stylesheet" href="./css/webapp.css">
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -29,23 +31,33 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="${context}/page">TestWebApp</a>
+                    <a class="navbar-brand" href="${context}/">TestWebApp</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="${context}/page">My records</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="${context}/cabinet">Cabinet</a></li>
+                        <li><a href="${context}/cabinet">Cabinet</a></li>
                         <li><a href="${context}/logout">Logout</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
         </div>
-        <div class="container">
-            <div class="page-header">
-                <h2>User ${sessionScope.login} cabinet</h2>
+         <div class="container">
+             <div class="page-header">
+                <h2>Server error</h2>
             </div>
         </div>
+        <div class="container">
+          <ul>
+            <li>Timestamp: <fmt:formatDate value="${date}" type="both" dateStyle="long" timeStyle="long" />
+            <li>Action: <c:out value="${requestScope['javax.servlet.forward.request_uri']}" />
+            <li>Exception: <c:out value="${requestScope['javax.servlet.error.exception']}" />
+            <li>Status code: <c:out value="${requestScope['javax.servlet.error.status_code']}" />
+          </ul>
+          <p>Please contact support.</p>
+        </div>
         <%@include file="includes/footer.jsp" %>
+    </body>
 </html>

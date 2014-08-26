@@ -18,6 +18,9 @@ public class Record {
     @Column(name = "TITLE")
     private String title;
 
+    @Column(name = "DESCRIPTION")
+    private String description;
+
     @Column(name = "CONTENT")
     private String content;
 
@@ -25,15 +28,17 @@ public class Record {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @Column(name = "USER_ID", nullable = false)
-    private Long ownerId;
+    @OneToOne
+    @JoinColumn(name = "AUTHOR_ID", nullable = false)
+    private User author;
 
     public Record() {
-        this("Record", "", new Date());
+        this("Record title", "Short description", "Some content",new Date());
     }
 
-    public Record(String title, String content, Date date) {
+    public Record(String title, String descr, String content, Date date) {
         this.title = title;
+        this.description = descr;
         this.content = content;
         this.date = date;
     }
@@ -46,12 +51,12 @@ public class Record {
         this.id = id;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public Date getDate() {
@@ -68,6 +73,14 @@ public class Record {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getContent() {

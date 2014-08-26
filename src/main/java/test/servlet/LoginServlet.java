@@ -2,6 +2,7 @@ package test.servlet;
 
 import test.dao.UserDAO;
 import test.entity.User;
+import test.util.HibernateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +24,12 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+        HttpSession session = req.getSession(false);
+        if (session != null && session.getAttribute("authenticated") != null) {
+            resp.sendRedirect(context + "/page");
+        } else {
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
+        }
     }
 
     @Override
@@ -31,19 +37,43 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (login != null && password != null) {
-            User user = UserDAO.getUserByLogin(login);
-            if (user != null && user.getPassword().equals(password)) {
-                HttpSession session = req.getSession();
-                session.setMaxInactiveInterval(30 * 60);
-                session.setAttribute("login", login);
-                session.setAttribute("authenticated", true);
-                resp.sendRedirect(context + "/page");
-                return;
-            }
+        if (login == null || password == null) {
+            goToLoginPageWithMessage("Invalid login or password", req, resp);
+            return;
         }
-        req.setAttribute("message", "Invalid login or password. Try again.");
+        User user = null;
+        try {
+            HibernateUtil.beginTransaction();
+            user = UserDAO.getUserByLogin(login);
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            //TODO: log exception
+            goToLoginPageWithMessage("Server Error. Try again later.", req, resp);
+            return;
+        }
+        if (user != null && user.getPassword().equals(password)) {
+            HttpSession session = req.getSession();
+            session.setMaxInactiveInterval(1800);
+            session.setAttribute("login", login);
+            session.setAttribute("authenticated", true);
+            session.setAttribute("userId", user.getId());
+            resp.sendRedirect(context + "/page");
+        } else {
+            goToLoginPageWithMessage("Invalid login or password", req, resp);
+        }
+    }
+
+    private void goToLoginPageWithMessage(String message, HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.setAttribute("message", message);
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(req, resp);
         //resp.sendRedirect(req.getContextPath() + "/WEB-INF/jsp/login.jsp");
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        HibernateUtil.closeCurrentSession();
     }
 }

@@ -35,6 +35,7 @@
 
         <mapping class="test.entity.Record"/>
         <mapping class="test.entity.User"/>
+        <mapping class="test.entity.Comment"/>
     </session-factory>
 </hibernate-configuration>
 
