@@ -37,6 +37,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -44,12 +45,6 @@
                 <version>2.4</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <webResources>
-                        <resource>
-                            <directory>resources</directory>
-                            <targetPath>WEB-INF/classes</targetPath>
-                        </resource>
-                    </webResources>
                 </configuration>
             </plugin>
         </plugins>
