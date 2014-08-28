@@ -14,10 +14,18 @@ public class CommentDAO {
         session.save(comment);
     }
 
-    public static List<Comment> getCommentsByRecordId(Long recordId) {
+    public static List<Comment> getRecordComments(Record record) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        List<Comment> comments = session.createQuery("FROM Comment WHERE recordId = :recId ORDER BY date ASC")
-                .setLong("recId", recordId).list();
+        List<Comment> comments = session.createQuery("FROM Comment WHERE record = :rec ORDER BY date ASC")
+                .setEntity("rec", record).list();
+        return comments;
+    }
+
+    public static List<Comment> getRecordCommentsByID(Long recordId) {
+        Record record = RecordDAO.getRecordById(recordId);
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        List<Comment> comments = session.createQuery("FROM Comment WHERE record = :rec ORDER BY date ASC")
+                .setEntity("rec", record).list();
         return comments;
     }
 }

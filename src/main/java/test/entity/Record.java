@@ -15,21 +15,21 @@ public class Record {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "TITLE")
+    @Column(name = "TITLE", nullable = false)
     private String title;
 
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "CONTENT")
+    @Column(name = "CONTENT", nullable = false)
     private String content;
 
-    @Column(name = "DATE", nullable = false)
+    @Column(name = "RECORD_DATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @OneToOne
-    @JoinColumn(name = "AUTHOR_ID", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User author;
 
     public Record() {
@@ -47,7 +47,7 @@ public class Record {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 

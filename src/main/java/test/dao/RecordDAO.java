@@ -14,16 +14,9 @@ public class RecordDAO {
         session.save(record);
     }
 
-    public static void addRecords(List<Record> recordList) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        for (Record r : recordList) {
-            session.save(r);
-        }
-    }
-
     public static List<Record> getUserRecords(String login) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        User author  = UserDAO.getUserByLogin(login);
+        User author = UserDAO.getUserByLogin(login);
         List<Record> records = session.createQuery("FROM Record WHERE author = :author ORDER BY date DESC").setEntity("author", author).list();
         return records;
     }

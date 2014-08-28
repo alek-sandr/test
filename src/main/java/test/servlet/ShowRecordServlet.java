@@ -39,7 +39,7 @@ public class ShowRecordServlet extends HttpServlet {
             HibernateUtil.beginTransaction();
             record = RecordDAO.getRecordById(recId);
             if (record != null) {
-                comments = CommentDAO.getCommentsByRecordId(recId);
+                comments = CommentDAO.getRecordComments(record);
             }
             HibernateUtil.commitTransaction();
         } catch (Exception e) {

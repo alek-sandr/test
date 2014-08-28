@@ -1,7 +1,6 @@
 package test.servlet;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import test.dao.RecordDAO;
 import test.dao.UserDAO;
@@ -21,6 +20,14 @@ import java.util.Date;
 @WebServlet("/addrecord")
 public class AddRecordServlet extends HttpServlet {
 
+    /**
+     * accepts JSON string in format
+     * {
+     *     "title":string,
+     *     "description":string
+     *     "content":string,
+     * }
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(req.getInputStream()));
@@ -30,34 +37,49 @@ public class AddRecordServlet extends HttpServlet {
             json = br.readLine();
         }
         Gson gson = new Gson();
-        JsonObject jObj = new JsonObject();
-        Record newRecord = gson.fromJson(json, Record.class);
-        if ("".equals(newRecord.getTitle().trim()) || "".equals(newRecord.getContent().trim())) {
-            jObj.addProperty("success", false);
-            jObj.addProperty("message", "Empty data.");
-            resp.getWriter().print(jObj.toString());
+        JsonObject answerData = new JsonObject();
+        String title = null;
+        String description = null;
+        String content = null;
+        try {
+            JsonObject data = gson.fromJson(json, JsonObject.class);
+            title = data.get("title").getAsString();
+            description = data.get("description").getAsString();
+            content = data.get("content").getAsString();
+        } catch (Exception e) {
+            answerData.addProperty("success", false);
+            answerData.addProperty("message", "Wrong data.");
+            resp.getWriter().print(answerData.toString());
             return;
         }
-        newRecord.setDate(new Date());
+        Record newRecord = new Record();//gson.fromJson(json, Record.class);
+        if ("".equals(title.trim()) || "".equals(content.trim())) {
+            answerData.addProperty("success", false);
+            answerData.addProperty("message", "Empty data.");
+            resp.getWriter().print(answerData.toString());
+            return;
+        }
         try {
             HibernateUtil.beginTransaction();
+            newRecord.setTitle(title);
+            newRecord.setDescription(description);
+            newRecord.setContent(content);
+            newRecord.setDate(new Date());
             newRecord.setAuthor(UserDAO.getUserByLogin(req.getSession().getAttribute("login").toString()));
             RecordDAO.addRecord(newRecord);
             HibernateUtil.commitTransaction();
-            jObj.addProperty("success", true);
-            jObj.addProperty("id", newRecord.getId());
-            jObj.addProperty("title", newRecord.getTitle());
-            jObj.addProperty("description", newRecord.getDescription());
-            jObj.add("date", gson.toJsonTree(newRecord.getDate()));
-            //JsonElement record = gson.toJsonTree(newRecord);
-            //jObj.add("record", record);
+            answerData.addProperty("success", true);
+            answerData.addProperty("id", newRecord.getId());
+            answerData.addProperty("title", newRecord.getTitle());
+            answerData.addProperty("description", newRecord.getDescription());
+            answerData.add("date", gson.toJsonTree(newRecord.getDate()));
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
             //TODO: log exception
-            jObj.addProperty("success", false);
-            jObj.addProperty("message", "Server error.");
+            answerData.addProperty("success", false);
+            answerData.addProperty("message", "Server error.");
         }
-        resp.getWriter().print(jObj.toString());
+        resp.getWriter().print(answerData.toString());
     }
 
     @Override

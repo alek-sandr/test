@@ -13,23 +13,26 @@ public class Comment {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
-    @Column(name = "CONTENT")
+    @Column(name = "CONTENT", nullable = false)
     private String content;
-    @Column(name = "DATE")
+
+    @Column(name = "COMMENT_DATE", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
+
     @OneToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "AUTHOR", nullable = false)
     private User author;
 
-    @Column(name = "RECORD_ID")
-    private Long recordId;
+    @OneToOne
+    @JoinColumn(name = "RECORD_ID", nullable = false)
+    private Record record;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 
@@ -57,11 +60,11 @@ public class Comment {
         this.author = author;
     }
 
-    public Long getRecordId() {
-        return recordId;
+    public Record getRecord() {
+        return record;
     }
 
-    public void setRecordId(Long recordId) {
-        this.recordId = recordId;
+    public void setRecord(Record record) {
+        this.record = record;
     }
 }

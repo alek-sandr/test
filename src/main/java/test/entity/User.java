@@ -10,18 +10,21 @@ import javax.persistence.Table;
 @Table(name = "USERS")
 public class User {
     @Id
+    @Column(name = "USER_ID")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
     private Long id;
 
+    @Column(name = "LOGIN", unique = true, nullable = false)
     private String login;
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 

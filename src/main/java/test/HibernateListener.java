@@ -10,8 +10,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 @WebListener
@@ -23,16 +21,14 @@ public class HibernateListener implements ServletContextListener {
         User admin = new User();
         admin.setLogin("admin");
         admin.setPassword("admin");
-        List<Record> records = new LinkedList<Record>();
-        for (int i = 0; i < 10; i++) {
-            Record record = new Record("Record", "Description", Integer.toString(rnd.nextInt()), new Date());
-            record.setAuthor(admin);
-            records.add(record);
-        }
         try {
             HibernateUtil.beginTransaction();
             UserDAO.addUser(admin);
-            RecordDAO.addRecords(records);
+            for (int i = 0; i < 10; i++) {
+                Record record = new Record("Record", "Description", Integer.toString(rnd.nextInt()), new Date());
+                record.setAuthor(admin);
+                RecordDAO.addRecord(record);
+            }
             HibernateUtil.commitTransaction();
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
