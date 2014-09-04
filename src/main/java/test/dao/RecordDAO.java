@@ -23,7 +23,8 @@ public class RecordDAO {
 
     public static Record getRecordById(long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        List<Record> records = session.createQuery("FROM Record WHERE id = :Id").setLong("Id", id).list();
-        return records.size() > 0 ? records.get(0) : null;
+        //List<Record> records = session.createQuery("FROM Record WHERE id = :Id").setLong("Id", id).list();
+        //return records.size() > 0 ? records.get(0) : null;
+        return (Record) session.get(Record.class, id);
     }
 }
