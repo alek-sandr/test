@@ -115,7 +115,7 @@ function addComment() {
         success: function (data) {
 			closeAddCommentForm();
             if (data.success) {
-                if ($("#no-comments") != null) {
+                if ($("#no-comments").length) {
                     $("#no-comments").remove();
                 }
                 var comment = '<div class="comment">' +

@@ -1,6 +1,7 @@
 package test.entity;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +15,7 @@ public class Comment {
     private Long id;
 
     @Column(name = "CONTENT", nullable = false)
+    @Type(type = "text")
     private String content;
 
     @Column(name = "COMMENT_DATE", nullable = false)

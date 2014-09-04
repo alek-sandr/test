@@ -19,9 +19,11 @@ public class Record {
     private String title;
 
     @Column(name = "DESCRIPTION")
+    @Type(type = "text")
     private String description;
 
     @Column(name = "CONTENT", nullable = false)
+    @Type(type = "text")
     private String content;
 
     @Column(name = "RECORD_DATE", nullable = false)
